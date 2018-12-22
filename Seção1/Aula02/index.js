@@ -26,3 +26,25 @@ let calc = (x1, x2, operador) => {
 var resultado = calc(2, 5, "*");
 
 console.log(resultado);
+
+/**
+ * Eventos
+ */
+
+ //Exibe no consele quando a janela fica em foco no windows
+ window.addEventListener('focus', event => {
+     console.log("focus");
+ });
+
+//Exibe no console quando o usuário clica no site
+ window.addEventListener('click', event => {
+    console.log("click");
+});
+
+/**
+ * Time stamp
+ */
+
+ let agora = new Date();
+
+console.log(agora);
