@@ -66,3 +66,40 @@ console.log(agora.toLocaleDateString("pt-BR"));//formata no padrão BR
  carros.forEach(function(value, index){
      console.log(index,value)
  });
+
+ /**
+  * Orientação a objetos
+  */
+
+  let celular = function(){
+      this.cor = "prata"; //properties
+
+      this.ligar = function()
+      {
+          console.log("ligação"); //methods
+          return "ligando...";
+      }
+  }
+
+  let objeto = new celular();
+  console.log(objeto);
+  console.log(objeto.cor);
+  console.log(objeto.ligar());
+
+  // Versão nova do JS
+  class telefone{
+      constructor(){
+          this.cor = "verde";
+
+        }
+         
+        ligar()
+        {
+            console.log("telefone"); //methods
+            return "telefonando...";
+        }
+  }
+
+  let novoObjeto = new telefone();
+  console.log(novoObjeto);
+  console.log(novoObjeto.ligar());
