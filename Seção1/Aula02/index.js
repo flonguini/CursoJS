@@ -45,6 +45,11 @@ console.log(resultado);
  * Time stamp
  */
 
- let agora = new Date();
+let agora = new Date();
 
 console.log(agora);
+console.log(agora.getDate()); // recebe o dia
+console.log(agora.getFullYear()); // recebe o ano
+console.log(agora.getMonth()); //recebe o mês
+
+console.log(agora.toLocaleDateString("pt-BR"));//formata no padrão BR
