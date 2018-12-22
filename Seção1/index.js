@@ -23,14 +23,33 @@ console.log(a!=b) // Diferente de
 console.log(a!=b && typeof(b) == 'string')  // operador and
 console.log(a!=b || typeof(b) == 'string')  // operador or
 
-let cor = 'amarelo';
+//Estrutura if
+
+let cor = 'verde';
 
 if (cor ==='verde') {
     console.log('Siga')
 }else if (cor === 'amarelo'){
     console.log('Atenção')
+}else{
+    console.log('Pare')
 }
 
-else{
-    console.log('Pare')
+//estrutura switch
+
+cor = 'sadasd'
+
+switch (cor) {
+    case "verde":
+        console.log("cor verde: passe")
+        break;
+    case "amarelo":
+        console.log("cor amarela: atenção")
+        break;
+    case "vermelho":
+        console.log("cor vermelho: pare")
+        break;
+    //opcional
+    default:
+        console.log("nenhuma das anteriores")
 }
