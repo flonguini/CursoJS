@@ -5,4 +5,4 @@ Aula 1: JS básico, criação de variáveis, estruturas condicionais, loops, ope
 
 Aula 2: Funções, funções anônimas, arrow functions, eventos, datas, arrays e orientação a objetos.
 
-#Seção 2 - Projeto calculadora
+## Seção 2 - Projeto calculadora
