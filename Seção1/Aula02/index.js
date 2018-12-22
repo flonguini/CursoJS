@@ -53,3 +53,16 @@ console.log(agora.getFullYear()); // recebe o ano
 console.log(agora.getMonth()); //recebe o mês
 
 console.log(agora.toLocaleDateString("pt-BR"));//formata no padrão BR
+
+/**
+ * Arrays
+ */
+
+ let carros = ["palio 98", "marea turbo", "toro", new Date(), function(){}];
+ console.log(carros);
+ console.log(carros.length);
+ console.log(carros[1]);
+
+ carros.forEach(function(value, index){
+     console.log(index,value)
+ });
