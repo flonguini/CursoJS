@@ -53,3 +53,17 @@ switch (cor) {
     default:
         console.log("nenhuma das anteriores")
 }
+
+//estrutura for
+// break para, continue ignora a iteração
+
+let n = 5;
+
+for (let i = 0; i<=10; i++){
+    //o que está dentro {} pode ser inserido uma instrução JS
+    if (i == 7) {
+        continue
+    }else{
+    console.log(`${i} x ${n} = ${i*n}`); //template string
+    }
+}
