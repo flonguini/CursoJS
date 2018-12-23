@@ -17,8 +17,11 @@
         // The current date
         this._currentDate;
         
-        // Inicialize the calculator
+        // Initialize the calculator
         this.initialize();
+
+        // The events for every button
+        this.initButtonsEvents();
     }
 
     //#endregion
@@ -43,7 +46,17 @@
     }
 
     initButtonsEvents(){
-        document.querySelector("#buttons > g, #parts > g");
+
+        // Select all the buttons and parts from the DOM
+        let buttons = document.querySelectorAll("#buttons > g, #parts > g");
+
+        //For each buttons adds a click event
+        buttons.forEach((btn, index) => {
+            btn.addEventListener('click', e => {
+                console.log(btn.className.baseVal.replace("btn-",""));
+            })
+        });
+        
     }
 
     // Sets the date and time for a specific location
