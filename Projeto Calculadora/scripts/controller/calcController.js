@@ -6,6 +6,9 @@
     //Construtor padrão da classe CalcController
     constructor()
     {
+        //The operations that will be executed
+        this._operation = [];
+
         // The location to display date and time
         this._locale = 'pt-BR';
         
@@ -45,6 +48,95 @@
         }, 5000);*/
     }
 
+    //Clear all the display
+    clearAll(){
+        //remove all operations
+        this._operation = []; 
+    }
+
+    //Clear the last entry
+    clearEntry(){
+        //remove the last operation
+        this._operation.pop(); //.pop remove a última entrada do array
+    }
+
+    //Add one more operation
+    addOperation(value){
+
+        //Add the operation to the field operation array
+        this._operation.push(value);
+        console.log(this._operation);
+    }
+
+    //Show Error on the display
+    setError(){
+        this.displayCalc = 'Error';
+    }
+
+    //Execute the function of a button
+    execBtn(value){
+
+        switch (value) {
+            //Case the user press the AC button
+            case 'ac':
+                this.clearAll();
+                break;
+            
+            //Case the user press the CE button
+            case 'ce':
+                this.clearEntry();
+                break;
+            
+            //Case the user press the + button                
+            case 'soma':
+                this.clearEntry();
+                break;
+
+            //Case the user press the - button
+            case 'subtracao':
+                this.clearEntry();
+                break;
+
+            //Case the user press the / button
+            case 'divisao':
+                this.clearEntry();
+                break;
+
+            //Case the user press the X button
+            case 'multiplicacao':
+                this.clearEntry();
+                break;
+
+            //Case the user press the % button
+            case 'porcento':
+                this.clearEntry();
+                break;
+
+            //Case the user press the = button
+            case 'igual':
+                this.clearEntry();
+                break;
+
+            //Case the user press one number button
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                this.addOperation(parseInt(value));
+                break;
+
+            //Case something wrong happened.
+            default:
+            this.setError();
+                break;
+        }
+    }
+
     //Create the buttons events
     initButtonsEvents(){
 
@@ -54,17 +146,21 @@
         //For each buttons adds a click event
         buttons.forEach((btn, index) => {
             this.addEventListenerAll(btn, 'click drag', e => {
-                console.log(btn.className.baseVal.replace("btn-",""));
-            })
-            
+                // store the button class name
+                let textBtn = btn.className.baseVal.replace("btn-","");
+
+                //
+                this.execBtn(textBtn);
+
+            });
+
             //Change the cursor to a hand
             this.addEventListenerAll(btn, "mouseover mouseup mousedown", e => {
                 btn.style.cursor = "pointer";
             });
         });
-        
     }
-
+    
     // Add an array of events
     addEventListenerAll(element, events, fn){
         
