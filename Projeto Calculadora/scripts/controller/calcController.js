@@ -45,6 +45,7 @@
         }, 5000);*/
     }
 
+    //Create the buttons events
     initButtonsEvents(){
 
         // Select all the buttons and parts from the DOM
@@ -52,11 +53,27 @@
 
         //For each buttons adds a click event
         buttons.forEach((btn, index) => {
-            btn.addEventListener('click', e => {
+            this.addEventListenerAll(btn, 'click drag', e => {
                 console.log(btn.className.baseVal.replace("btn-",""));
             })
+            
+            //Change the cursor to a hand
+            this.addEventListenerAll(btn, "mouseover mouseup mousedown", e => {
+                btn.style.cursor = "pointer";
+            });
         });
         
+    }
+
+    // Add an array of events
+    addEventListenerAll(element, events, fn){
+        
+        //Slips the events into an array
+        events.split(' ').forEach(event => { //for each element adds the event
+            element.addEventListener(event, fn, false);
+        }
+
+        );
     }
 
     // Sets the date and time for a specific location

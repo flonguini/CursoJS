@@ -11,3 +11,7 @@ Aula 1: Como receber os valores do HTML para o JS
 Aula 2: Atualizando a data e hora do display
 
 Aula 3: Como selecionar os elementos do DOM (query selector)
+
+Aula 4: Cria os eventos dos botões
+
+Aula 5: Cria um métodos para inserir vários eventos em um mesmo elemento. Altera o cursor do mouse
