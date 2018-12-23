@@ -15,3 +15,7 @@ Aula 3: Como selecionar os elementos do DOM (query selector)
 Aula 4: Cria os eventos dos botões
 
 Aula 5: Cria um métodos para inserir vários eventos em um mesmo elemento. Altera o cursor do mouse
+
+Aula 6: Funcionalidades dos botões, função execBtn() e botões AC e CE
+
+Aula 7: Concatenando os valores para um número

@@ -60,11 +60,45 @@
         this._operation.pop(); //.pop remove a última entrada do array
     }
 
+    // Return the las operation entered by the user
+    getLastOperation(){
+        return this._operation[this._operation.length-1]
+    }
+
+    // Returns if the item is and operator
+    isOperator(value){
+        //Check if the value is inside the array, if not returns -1
+        return(['+','-','*','/','%'].indexOf(value) > -1);
+    }
+
+    //Change the operator
+    setLastOperation(value){
+        this._operation[this._operation.length-1] = value
+    }
+
     //Add one more operation
     addOperation(value){
+        //Verify if the last item enter is a number
+        if (isNaN(this.getLastOperation())) {
+            //If the last item is a string
+            if (this.isOperator(value)) {
+                //Change the operator
+                this.setLastOperation(value);
+            }else if (isNaN(value)){
+
+            } else {
+                //Add the number to _operation
+                 this._operation.push(value);
+            }
+
+        } else { // Case the last item is a number
+            //Concatenates the last values
+            let newValue = this.getLastOperation().toString() + value.toString();
+            //Add the value to _operation
+            this.setLastOperation(parseInt(newValue));
+        }
 
         //Add the operation to the field operation array
-        this._operation.push(value);
         console.log(this._operation);
     }
 
@@ -89,32 +123,37 @@
             
             //Case the user press the + button                
             case 'soma':
-                this.clearEntry();
+                this.addOperation('+');
                 break;
 
             //Case the user press the - button
             case 'subtracao':
-                this.clearEntry();
+                this.addOperation('-');
                 break;
 
             //Case the user press the / button
             case 'divisao':
-                this.clearEntry();
+                this.addOperation('/');
                 break;
 
             //Case the user press the X button
             case 'multiplicacao':
-                this.clearEntry();
+                this.addOperation('*');
                 break;
 
             //Case the user press the % button
             case 'porcento':
-                this.clearEntry();
+                this.addOperation('%');
                 break;
 
             //Case the user press the = button
             case 'igual':
                 this.clearEntry();
+                break;
+
+            //Case the user press the . button
+            case 'ponto':
+                this.addOperation('.');
                 break;
 
             //Case the user press one number button
