@@ -42,6 +42,11 @@
         }, 5000);*/
     }
 
+    initButtonsEvents(){
+        document.querySelector("#buttons > g, #parts > g");
+    }
+
+    // Sets the date and time for a specific location
     setDisplayDateTime(){
         //Change the display date 
         this.displayDate = this.currentDate.toLocaleDateString(this._locale);
