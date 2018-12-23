@@ -1,43 +1,58 @@
  class CalcController
  {
-    
+
+    //#region  Default Constructor
+
     //Construtor padrão da classe CalcController
     constructor()
     {
-        this._displayCalc = "0"; // atributo privado
-        this._currentDate;         // atributo privado
+        this._displayCalc = "0";
+        this._currentDate;
         this.initialize();
     }
 
-    //Manipulação do DOM
-    initialize(){
-        //seleção dos elementos HTML
-        let displayeCalcEl = document.querySelector("#display") // seleciona o número que está no display da calculadora
-        let dateEl = document.querySelector("#data") // seleciona o número que está na data da calculadora
-        let timeEl = document.querySelector("#hora") // seleciona o número que está na hora da calculadora
+    //#endregion
 
-        displayeCalcEl.innerHTML = "4567";
-        dateEl.innerHTML = "01/05/2018";
-        timeEl.innerHTML = "00:00";
+    //#region Methods
+
+    initialize(){
+        //Seleciona os elementos do DOM
+        let displayCalcEl = document.querySelector('#display')
+        let dateEl = document.querySelector('#data')
+        let timeEl = document.querySelector('#hora')
+
+        displayCalcEl.innerHTML = "4567";
+        dateEl.innerHTML = "12/12/2012";
+        timeEl.innerHTML = "23:59:54";
     }
 
-    //Get do field displayCalc
+    //#endregion
+
+    //#region Getters
+
+    // Gets the _displayCalc value
     get displayCalc(){
         return this._displayCalc;
     }
 
-    //Set do field displayCalc
-    set displayCalc(valor){
-        this._displayCalc = valor;
-    }
-
-    //Get do field dataAtual
-    get dataAtual(){
+    // Gets the _currentDate value
+    get actualDate(){
         return this._currentDate;
     }
 
-    //set do field dataAtual
-    set dataAtual(valor){
-        this._currentDate = valor;
+    //#endregion
+
+    //#region Setters
+
+    // Sets the _displayCalc value
+    set displayCalc(value){
+        this._displayCalc = value;
     }
+
+    // Sets the _currentDate value
+    set actualDate(value){
+        this._currentDate = value;
+    }
+
+    //#endregion
 }
