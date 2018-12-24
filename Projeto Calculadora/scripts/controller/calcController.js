@@ -87,6 +87,20 @@
         }
     }
 
+    //Display the last number 
+    setLastNumbertoDisplay(){
+        let lastNumber;
+
+        for (let i = this._operation.length-1; i >= 0; i--) {
+           if (!this.isOperator(this._operation[i])) {
+                lastNumber = this._operation[i];
+                break;
+           }
+        }
+
+        this.displayCalc = lastNumber;
+    }
+
     //Evaluate the last expression
     calc(){
         //save the las operation that was inputed by the user
@@ -97,6 +111,9 @@
 
         //change the _operation to the evaluated operation and the last operator
         this._operation = [result, last]
+
+        //Update the display
+        this.setLastNumbertoDisplay();
     }
 
     //Add one more operation
@@ -107,22 +124,32 @@
             if (this.isOperator(value)) {
                 //Change the operator
                 this.setLastOperation(value);
+                console.log(value);
             }else if (isNaN(value)){
+
+                console.log("outra coisa");
 
             } else {
                 //Add the number to _operation
                  this.pushOperation(value);
+                 console.log(value);
+                 //Update the display
+                this.setLastNumbertoDisplay();
             }
 
         } else { // Case the last item is a number
 
             if (this.isOperator(value)) {
                 this.pushOperation(value);
+                console.log(value);
             } else {
                 //Concatenates the last values
                 let newValue = this.getLastOperation().toString() + value.toString();
                 //Add the value to _operation
                 this.setLastOperation(parseInt(newValue));
+                //Update the display
+                this.setLastNumbertoDisplay();
+                console.log(value);
             }
         }
 

@@ -19,3 +19,7 @@ Aula 5: Cria um métodos para inserir vários eventos em um mesmo elemento. Alte
 Aula 6: Funcionalidades dos botões, função execBtn() e botões AC e CE
 
 Aula 7: Concatenando os valores para um número
+
+Aula 8: Validando o primeiro valor e calculando o resultado
+
+Aula 9: Último número dentro do array usando for
