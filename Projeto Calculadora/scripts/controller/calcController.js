@@ -52,12 +52,14 @@
     clearAll(){
         //remove all operations
         this._operation = []; 
+        this.setLastNumbertoDisplay();
     }
 
     //Clear the last entry
     clearEntry(){
         //remove the last operation
         this._operation.pop(); //.pop remove a última entrada do array
+        this.setLastNumbertoDisplay();
     }
 
     // Return the las operation entered by the user
@@ -98,19 +100,37 @@
            }
         }
 
+        //if the array is empty display 0
+        if(!lastNumber) lastNumber = 0;
+
         this.displayCalc = lastNumber;
     }
 
     //Evaluate the last expression
     calc(){
-        //save the las operation that was inputed by the user
-        let last = this._operation.pop();
+
+        // Initialize the las variable as empty
+        let last = '';
+
+        // Case the _operation have more than 3 elements
+        if (this._operation.length > 3) {
+            // remove the las element
+            last = this._operation.pop();
+        }
         
         //Evaluate the expression
         let result = eval(this._operation.join(""));
+        
+        //Case the operation is percentage
+        if (last == '%') {
+            result /= 100;
+            this._operation = [result];
+        }else{
+            //change the _operation to the evaluated operation and the last operator
+            this._operation = [result]
 
-        //change the _operation to the evaluated operation and the last operator
-        this._operation = [result, last]
+            if (last) this._operation.push(last);
+        }
 
         //Update the display
         this.setLastNumbertoDisplay();
@@ -124,7 +144,6 @@
             if (this.isOperator(value)) {
                 //Change the operator
                 this.setLastOperation(value);
-                console.log(value);
             }else if (isNaN(value)){
 
                 console.log("outra coisa");
@@ -132,7 +151,6 @@
             } else {
                 //Add the number to _operation
                  this.pushOperation(value);
-                 console.log(value);
                  //Update the display
                 this.setLastNumbertoDisplay();
             }
@@ -141,7 +159,6 @@
 
             if (this.isOperator(value)) {
                 this.pushOperation(value);
-                console.log(value);
             } else {
                 //Concatenates the last values
                 let newValue = this.getLastOperation().toString() + value.toString();
@@ -149,12 +166,9 @@
                 this.setLastOperation(parseInt(newValue));
                 //Update the display
                 this.setLastNumbertoDisplay();
-                console.log(value);
             }
         }
 
-        //Add the operation to the field operation array
-        console.log(this._operation);
     }
 
     //Show Error on the display
@@ -203,7 +217,7 @@
 
             //Case the user press the = button
             case 'igual':
-                this.clearEntry();
+                this.calc();
                 break;
 
             //Case the user press the . button
