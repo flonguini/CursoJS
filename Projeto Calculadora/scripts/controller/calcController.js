@@ -76,6 +76,29 @@
         this._operation[this._operation.length-1] = value
     }
 
+    // Adds the operation to _operation array
+    pushOperation(value){
+        this._operation.push(value);
+
+        //In case the _operation has the full expresstion
+        if (this._operation.length > 3) {
+            //evaluate the last expression
+            this.calc();
+        }
+    }
+
+    //Evaluate the last expression
+    calc(){
+        //save the las operation that was inputed by the user
+        let last = this._operation.pop();
+        
+        //Evaluate the expression
+        let result = eval(this._operation.join(""));
+
+        //change the _operation to the evaluated operation and the last operator
+        this._operation = [result, last]
+    }
+
     //Add one more operation
     addOperation(value){
         //Verify if the last item enter is a number
@@ -88,14 +111,19 @@
 
             } else {
                 //Add the number to _operation
-                 this._operation.push(value);
+                 this.pushOperation(value);
             }
 
         } else { // Case the last item is a number
-            //Concatenates the last values
-            let newValue = this.getLastOperation().toString() + value.toString();
-            //Add the value to _operation
-            this.setLastOperation(parseInt(newValue));
+
+            if (this.isOperator(value)) {
+                this.pushOperation(value);
+            } else {
+                //Concatenates the last values
+                let newValue = this.getLastOperation().toString() + value.toString();
+                //Add the value to _operation
+                this.setLastOperation(parseInt(newValue));
+            }
         }
 
         //Add the operation to the field operation array
@@ -157,6 +185,7 @@
                 break;
 
             //Case the user press one number button
+            case '0':
             case '1':
             case '2':
             case '3':
