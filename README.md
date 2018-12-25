@@ -33,3 +33,7 @@ Aula 12: Método addDot()
 Aula 13: Implementação dos eventos do teclado
 
 Aula 14: Métodos para ctrl+c e ctrl+v
+
+Aula 15: Implementação do áudio
+
+Aula 16: Tratramento de erros com try catch
