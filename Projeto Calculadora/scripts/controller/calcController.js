@@ -6,6 +6,8 @@
     //Construtor padrão da classe CalcController
     constructor()
     {
+        this._lastOperator = '';
+        this._lastNumber = '';
         //The operations that will be executed
         this._operation = [];
 
@@ -89,37 +91,79 @@
         }
     }
 
-    //Display the last number 
-    setLastNumbertoDisplay(){
-        let lastNumber;
+    //Returns the last number or last operator
+    getLastItem(isOperator = true){
 
-        for (let i = this._operation.length-1; i >= 0; i--) {
-           if (!this.isOperator(this._operation[i])) {
-                lastNumber = this._operation[i];
-                break;
-           }
+        let lastItem;
+
+        for (let i = this._operation.length - 1; i>= 0; i--){
+            if (isOperator) {
+                if (this.isOperator(this._operation[i])) {
+                    lastItem = this._operation[i];
+                    break;
+                }
+            }else {
+                if (!this.isOperator(this._operation[i])) {
+                    lastItem = this._operation[i];
+                    break;
+                }
+            }
         }
 
+        if (!lastItem) {
+            lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
+        }
+
+        return lastItem;
+    }
+
+    //Display the last number 
+    setLastNumbertoDisplay(){
+
+        //Get the last number
+        let lastNumber = this.getLastItem(false);
+        
         //if the array is empty display 0
         if(!lastNumber) lastNumber = 0;
 
+        //Display the last number
         this.displayCalc = lastNumber;
+    }
+
+    //
+    getResult(){
+        return eval(this._operation.join(""));
     }
 
     //Evaluate the last expression
     calc(){
-
         // Initialize the las variable as empty
         let last = '';
 
+        //Save the last operator
+        this._lastOperator = this.getLastItem();
+
+        if (this._operation.length < 3) {
+            let firstItem = this._operation[0];
+            this._operation = [firstItem, this._lastOperator, this._lastNumber];
+        }
+       
         // Case the _operation have more than 3 elements
         if (this._operation.length > 3) {
             // remove the las element
             last = this._operation.pop();
-        }
+
+            //Evaluate the expression
+            this._lastNumber = this.getResult();
+
+        }else if (this._operation.length == 3) { // case the user enter (3+5)
+            
+            //save the last number
+            this._lastNumber = this.getLastItem(false);
+        } 
         
         //Evaluate the expression
-        let result = eval(this._operation.join(""));
+        let result = this.getResult();
         
         //Case the operation is percentage
         if (last == '%') {

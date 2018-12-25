@@ -25,3 +25,5 @@ Aula 8: Validando o primeiro valor e calculando o resultado
 Aula 9: Último número dentro do array usando for
 
 Aula 10: Botão %
+
+Aula 11: Criação do botão =
