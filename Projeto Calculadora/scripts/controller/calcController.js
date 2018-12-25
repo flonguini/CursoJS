@@ -6,6 +6,8 @@
     //Construtor padrão da classe CalcController
     constructor()
     {
+        this._audio = new Audio('click.mp3');
+        this._audioOnOff = false;
         this._lastOperator = '';
         this._lastNumber = '';
         //The operations that will be executed
@@ -49,11 +51,31 @@
             this.setDisplayDateTime(); // call the setDisplayDateTime time
         }, 1000);
 
+        this.setLastNumbertoDisplay();
+        this.pasteFromClipboard();
+
+        document.querySelectorAll('.btn-ac').forEach(btn=>{
+            btn.addEventListener('dblclick', e=>{
+                this.toggleAudio();
+            });
+        });
         /*
         // Pausa o set interval
         setTimeout(() => {
             clearInterval(interval); // var interval = setInterval...
         }, 5000);*/
+    }
+
+    //Liga ou desliga audio
+    toggleAudio(){
+        this._audioOnOff = !this._audioOnOff;
+    }
+
+    playAudio(){
+        if (this._audioOnOff) {
+            this._audio.currentTime = 0;
+            this._audio.play();
+        }
     }
 
     //Copy the valeu from calc display
@@ -86,6 +108,8 @@
 
     //Initialize the keyboards events
     initKeyboard(){
+
+        this.playAudio();
         document.addEventListener('keyup', e=>{
             
             switch (e.key) {
@@ -329,6 +353,8 @@
 
     //Execute the function of a button
     execBtn(value){
+
+        this.playAudio();
 
         switch (value) {
             //Case the user press the AC button
