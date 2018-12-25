@@ -30,6 +30,9 @@
 
         //The events for the keyboard
         this.initKeyboard();
+
+        //The event for paste function
+        this.pasteFromClipboard();
     }
 
     //#endregion
@@ -51,6 +54,34 @@
         setTimeout(() => {
             clearInterval(interval); // var interval = setInterval...
         }, 5000);*/
+    }
+
+    //Copy the valeu from calc display
+    copyToClipBoard(){
+        let input = document.createElement('input') //cria elemento na tela dinamicamente;
+        
+        //insere dentro do input o valor que está no display
+        input.value = this.displayCalc;
+
+        //adiciona ao corpo do html o input
+        document.body.appendChild(input);
+
+        //seleciona o valor do campo input
+        input.select();
+
+        //copia o valor selecopnado
+        document.execCommand("Copy");
+
+        //Oculta o input
+        input.remove();
+    }
+
+    //Paste the value to the calc display
+    pasteFromClipboard(){
+        document.addEventListener('paste', e=>{
+            let text = e.clipboardData.getData('Text');
+            this.displayCalc = parseFloat(text);
+        });
     }
 
     //Initialize the keyboards events
@@ -101,6 +132,11 @@
                 case '8':
                 case '9':
                     this.addOperation(parseInt(e.key));
+                    break;
+                case 'c':
+                    if (e.ctrlKey) {
+                        this.copyToClipBoard();
+                    }
                     break;
             }
         });

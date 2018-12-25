@@ -29,3 +29,7 @@ Aula 10: Botão %
 Aula 11: Criação do botão =
 
 Aula 12: Método addDot()
+
+Aula 13: Implementação dos eventos do teclado
+
+Aula 14: Métodos para ctrl+c e ctrl+v
