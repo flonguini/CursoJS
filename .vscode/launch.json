@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "file:///C:/Users/Fernando/OneDrive%20-%20Fatec%20Centro%20Paula%20Souza/Courses/Javascript/Projeto%20Calculadora/index.html",
+            "url": "file:///C:/Users/Fernando/OneDrive%20-%20Fatec%20Centro%20Paula%20Souza/Courses/Javascript/Projeto%20Usuarios/index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]

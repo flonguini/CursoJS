@@ -37,3 +37,5 @@ Aula 14: Métodos para ctrl+c e ctrl+v
 Aula 15: Implementação do áudio
 
 Aula 16: Tratramento de erros com try catch
+
+## Seção 2 - Projeto Usuários
