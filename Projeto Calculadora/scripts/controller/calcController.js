@@ -54,6 +54,8 @@
     clearAll(){
         //remove all operations
         this._operation = []; 
+        this._lastNumber = '';
+        this._lastOperator = '';
         this.setLastNumbertoDisplay();
     }
 
@@ -188,11 +190,7 @@
             if (this.isOperator(value)) {
                 //Change the operator
                 this.setLastOperation(value);
-            }else if (isNaN(value)){
-
-                console.log("outra coisa");
-
-            } else {
+            }else {
                 //Add the number to _operation
                  this.pushOperation(value);
                  //Update the display
@@ -207,7 +205,7 @@
                 //Concatenates the last values
                 let newValue = this.getLastOperation().toString() + value.toString();
                 //Add the value to _operation
-                this.setLastOperation(parseInt(newValue));
+                this.setLastOperation(newValue);
                 //Update the display
                 this.setLastNumbertoDisplay();
             }
@@ -218,6 +216,23 @@
     //Show Error on the display
     setError(){
         this.displayCalc = 'Error';
+    }
+
+    //Adds the dot to a number
+    addDot(){
+        let lastOperation = this.getLastOperation();
+
+        if (typeof lastOperation === 'string' && lastOperation.split('').indexOf('.') > -1) {
+            return;
+        }
+
+        if (this.isOperator(lastOperation) || !lastOperation) {
+            this.pushOperation('0.');
+        }else{
+            this.setLastOperation(lastOperation.toString() + '.');
+        }
+
+        this.setLastNumbertoDisplay();
     }
 
     //Execute the function of a button
@@ -266,7 +281,7 @@
 
             //Case the user press the . button
             case 'ponto':
-                this.addOperation('.');
+                this.addDot();
                 break;
 
             //Case the user press one number button

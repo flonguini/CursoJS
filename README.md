@@ -27,3 +27,5 @@ Aula 9: Último número dentro do array usando for
 Aula 10: Botão %
 
 Aula 11: Criação do botão =
+
+Aula 12: Método addDot()
