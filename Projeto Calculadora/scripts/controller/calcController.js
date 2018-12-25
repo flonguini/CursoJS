@@ -27,6 +27,9 @@
 
         // The events for every button
         this.initButtonsEvents();
+
+        //The events for the keyboard
+        this.initKeyboard();
     }
 
     //#endregion
@@ -48,6 +51,59 @@
         setTimeout(() => {
             clearInterval(interval); // var interval = setInterval...
         }, 5000);*/
+    }
+
+    //Initialize the keyboards events
+    initKeyboard(){
+        document.addEventListener('keyup', e=>{
+            
+            switch (e.key) {
+                //Case the user press the AC button
+                case 'Escape':
+                    this.clearAll();
+                    break;
+                
+                //Case the user press the CE button
+                case 'Backspace':
+                    this.clearEntry();
+                    break;
+                
+                //Case the user press the + button                
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '%':
+                    this.addOperation(e.key);
+                    break;
+
+                //Case the user press the = button
+                case 'Enter':
+                case '=':
+                    this.calc();
+                    break;
+    
+                //Case the user press the . button
+                case '.':
+                case ',':
+                    this.addDot();
+                    break;
+    
+                //Case the user press one number button
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    this.addOperation(parseInt(e.key));
+                    break;
+            }
+        });
     }
 
     //Clear all the display
