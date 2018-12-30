@@ -4,8 +4,9 @@ var user = {};
 // adiciona mais uma linha a tabela
 
 function addLine(dataUser){
-    var tr = document.createElement("tr");
-    tr.innerHTML = `
+    console.log(dataUser);
+    document.getElementById("table-users").innerHTML = 
+    `
         <tr>
             <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
@@ -18,8 +19,6 @@ function addLine(dataUser){
             </td>
         </tr>
     `;
-
-    document.getElementById("table-users").appendChild(tr);
 }
 
 // eventos
@@ -43,5 +42,6 @@ document.getElementById("form-user-create").addEventListener("submit", function(
         //  console.log(field.name);
     });
     
-    addLine(user);
+    var objectUser = new User(user.name, user.gender, user.birth, user.country, user.password, user.photo, user.admin);
+    addLine(objectUser);
 });
