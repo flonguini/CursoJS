@@ -9,8 +9,14 @@ class UserController{
     getValues(){
 
         let user = {};
+        let isValid = true;
         // Faz uma iteração em todos os campos
         [...this.formEl.elements].forEach(function(field){ //converte o objeto em array por meio do spread
+
+            if (['name','email','password'].indexOf(field.name) > -1 && !field.value) {
+                field.parentElement.classList.add('has-error');
+                isvalid = false;
+            }
         //Verifica se o campo é o campo gender
         if (field.name == 'gender') 
         {
@@ -26,6 +32,8 @@ class UserController{
         }
 
         });
+
+        if (!isValid){return false;}
         
         return new User(user.name, user.gender, user.birth, user.country, user.password, user.photo, user.admin);
     }
@@ -108,8 +116,5 @@ class UserController{
         this.tableEl.appendChild(tr);
         
     }
-
-    // adiciona mais uma linha a tabela
-
 
 }
