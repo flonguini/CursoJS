@@ -15,7 +15,7 @@ class UserController{
 
             if (['name','email','password'].indexOf(field.name) > -1 && !field.value) {
                 field.parentElement.classList.add('has-error');
-                isvalid = false;
+                isValid = false;
             }
         //Verifica se o campo é o campo gender
         if (field.name == 'gender') 
@@ -49,6 +49,8 @@ class UserController{
 
             let values = this.getValues(); 
             
+            if (!values) return false;
+
             this.getPhoto().then(
                 (content) => {
                     values.photo = content;
@@ -99,6 +101,8 @@ class UserController{
     addLine(dataUser){
 
         let tr = document.createElement('tr');
+
+        tr.dataset.user = JSON.stringify(dataUser);
       
         //Template para inserir uma linha na tabela
         tr.innerHTML = `
@@ -114,7 +118,25 @@ class UserController{
         `;
 
         this.tableEl.appendChild(tr);
+
+        this.updateCount();
         
+    }
+
+    updateCount(){
+        let numberUsers = 0;
+        let numberAdmin = 0;
+
+        [...this.tableEl.children].forEach(tr=>{
+            numberUsers++;
+            let user = JSON.parse(tr.dataset.user)
+            if (user._admin) {
+                numberAdmin++;
+            }
+        });
+
+        document.querySelector("#number-users").innerHTML = numberUsers;
+        document.querySelector("#number-users-admin").innerHTML = numberAdmin;
     }
 
 }
