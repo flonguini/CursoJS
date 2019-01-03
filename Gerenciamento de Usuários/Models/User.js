@@ -2,7 +2,7 @@
 class User{
 
     // Construtor padrão da classe
-    constructor(name, gender, birth, country, password, photo, admin){
+    constructor(name, gender, birth, country, password, photo, admin, email){
         this._name = name;
         this._gender = gender;
         this._birth = birth;
@@ -11,6 +11,7 @@ class User{
         this._photo = photo;
         this._admin = admin;
         this._register = new Date();
+        this._email = email;
     }
 
     // #region Getters
@@ -22,6 +23,7 @@ class User{
     get photo(){ return this._photo; }
     get admin(){ return this._admin; }
     get register(){ return this._register; }
+    get email(){ return this._email; }
     //#endregion
 
     // #region Setters
