@@ -3,6 +3,7 @@ class User{
 
     // Construtor padrão da classe
     constructor(name, gender, birth, country, password, photo, admin, email){
+        this._id;
         this._name = name;
         this._gender = gender;
         this._birth = birth;
@@ -15,6 +16,7 @@ class User{
     }
 
     // #region Getters
+    get id(){ return this._id; }
     get name(){ return this._name; }
     get gender(){ return this._gender; }
     get birth(){ return this._birth; }
@@ -49,5 +51,50 @@ class User{
                     this[name] = json[name]; 
             }
         }
+    }
+
+    getNewId(){
+        if (!window.id){
+            window.id = 0;
+        } 
+
+        id++;
+
+        return id;
+    }
+
+    save(){
+
+        let users = User.getUsersStorage();
+
+        if(this.id > 0){
+            users.map(u => {
+                if(u._id== this.id){
+                    u = this;
+                }
+                return u;
+            });
+
+        }else{
+            this._id = this.getNewId();
+            users.push(this);
+            //sessionStorage.setItem("users", JSON.stringify(users)); // chave, valor
+        }
+        
+        localStorage.setItem("users", JSON.stringify(users)); // chave, valor
+    }
+
+    static getUsersStorage(){
+        let users = [];
+    
+        //if (sessionStorage.getItem("users")) {
+        //    users = JSON.parse(sessionStorage.getItem("users"));
+        //}
+        if (localStorage.getItem("users")) {
+            users = JSON.parse(localStorage.getItem("users"));
+        }
+
+        return users;
+
     }
 }
