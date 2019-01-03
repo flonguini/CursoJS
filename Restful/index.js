@@ -1,33 +1,27 @@
-const http = require('http');
+const express = require('express');
 
-let server = http.createServer((req, res) => {
-    console.log("URL: ", req.url);
-    console.log("METHOD: ", req.method);
-    
-    //Criação das rotas
-    switch(req.url){
-        case '/':
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'text/html');
-            res.end('<h1>Olá</h1>');
-            break;
+let app = express();
 
-        // Rota localhost:3000/users
-        case '/users':
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({
-            users: [{
-                name: 'hcode',
-                email: 'hcode@hotmail.com',
-                id: 1
-            }]
-        }));
-            
-        break;
-    }
+// Rota /
+app.get('/',(req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.end('<h1>Olá</h1>');
 });
 
-server.listen(3000, '127.0.0.1', ()=>{
+//Rota Users
+app.get('/users', (req,res)=>{
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({
+        users: [{
+            name: "Fernando",
+            email: "fernando@gmail.com",
+            id: 1
+        }]
+    });
+});
+
+app.listen(3000, '127.0.0.1', ()=>{
     console.log("servidor rodando...");
 });
