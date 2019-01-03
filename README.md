@@ -41,3 +41,7 @@ Aula 16: Tratramento de erros com try catch
 ## Seção 2 - Projeto Usuários
 
 ## Seção 3 - NodeJS
+
+Inicialização do NPM: npm init
+
+Instalação do módulo express: npn install express --save
