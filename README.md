@@ -39,3 +39,5 @@ Aula 15: Implementação do áudio
 Aula 16: Tratramento de erros com try catch
 
 ## Seção 2 - Projeto Usuários
+
+## Seção 3 - NodeJS
