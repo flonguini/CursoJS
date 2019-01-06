@@ -15,6 +15,8 @@ class DropBoxController{
         this.inputFilesEl = document.querySelector('#files');
         // Select the snackbar
         this.snackModalEl = document.querySelector('#react-snackbar-root');
+        // Select the progress bar
+        this.progressBarEl = this.snackModalEl.querySelector('.mc-progress-bar-fg');
         // Initialize the events
         this.initEvents();
 
@@ -101,6 +103,14 @@ class DropBoxController{
 
                 };
 
+                // event to send the bytes send the server
+                ajax.upload.onprogress = event => {
+
+                    // pass to the method the event and the file properties
+                    this.uploadProgress(event, file);
+
+                }
+
                 // create new instance of FormData
                 let formData = new FormData();
 
@@ -116,6 +126,20 @@ class DropBoxController{
 
         // return every resolve for each promises created
         return Promise.all(promises);
+
+    }
+
+    // Change the progress bar percentage
+    uploadProgress(event, file){
+
+        // the total bytes send
+        let loaded = event.loaded;
+        // the total bytes of the file
+        let total = event.total;
+        // the percente send
+        let percent = parseInt((loaded / total) * 100);
+        // change de progress bar width
+        this.progressBarEl.style.width = `${percent}%`;
 
     }
 
