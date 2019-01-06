@@ -13,7 +13,7 @@ class DropBoxController{
         this.btnSendFileEl = document.querySelector('#btn-send-file');
         // Select the input
         this.inputFilesEl = document.querySelector('#files');
-        // Selec the snackbar
+        // Select the snackbar
         this.snackModalEl = document.querySelector('#react-snackbar-root');
         // Initialize the events
         this.initEvents();
@@ -53,9 +53,16 @@ class DropBoxController{
     }
 
 
+    /**
+     *Upload the files to the server
+     *
+     * @param {*} files files to upload
+     * @returns the promises for each file
+     * @memberof DropBoxController
+     */
     uploadTask(files){
 
-        // collection with primises for each file
+        // collection with promises for each file
         let promises = [];
 
         // convert the collection to array
@@ -67,14 +74,15 @@ class DropBoxController{
                 // create new instance of XMLHttpRequest()
                 let ajax = new XMLHttpRequest();
 
-                // send the files by POST 
+                // Open the connection
                 ajax.open('POST', '/upload');
 
+                // on ajax finish
                 ajax.onload = event => {
 
                     try{
                     
-                        // Resolve the server respost
+                        // Resolve the server response
                         resolve(JSON.parse(ajax.responseText));
                     
                     } catch(e){

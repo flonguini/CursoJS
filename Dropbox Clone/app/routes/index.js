@@ -1,9 +1,35 @@
 var express = require('express');
 var router = express.Router();
+var formidable = require('formidable');
+
+//#region GET Routes
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+//#endregion
+
+
+//#region POST Routes
+
+// route for uploads
+router.post('/upload', (req, res) => {
+
+	let form = new formidable.IncomingForm({
+		uploadDir:'./upload',
+		keepExtensions: true
+	});
+
+	form.parse(req, (err, fields, files)=>{
+		res.json({files});
+	});
+
+
+});
+
+//#endregion
+
+// export the module
 module.exports = router;
