@@ -17,6 +17,10 @@ class DropBoxController{
         this.snackModalEl = document.querySelector('#react-snackbar-root');
         // Select the progress bar
         this.progressBarEl = this.snackModalEl.querySelector('.mc-progress-bar-fg');
+        // Select the file's name
+        this.nameFileEl = this.snackModalEl.querySelector('.filename');
+        // Select the time left to upload the file
+        this.timeLeftEl = this.snackModalEl.querySelector('.timeleft');
         // Initialize the events
         this.initEvents();
 
@@ -26,7 +30,6 @@ class DropBoxController{
 
     //#region Methods
 
-    
     /**
      *Initialize the buttons events
      *
@@ -48,10 +51,24 @@ class DropBoxController{
             // Call the upload task with the selected itens
             this.uploadTask(event.target.files);
 
-            // show the upload bar
-            this.snackModalEl.style.display = 'block';
+            // Show the progress bar
+            this.modalShow();
 
+            // reset the progress bar
+            this.inputFilesEl.value = '';
         });
+    }
+
+
+
+    /**
+     * Show or hide the progress bar
+     *
+     * @param {boolean} [show=true] 
+     * @memberof DropBoxController
+     */
+    modalShow(show = true){
+        this.snackModalEl.style.display = (show) ? 'block' : 'none';
     }
 
 
@@ -82,6 +99,9 @@ class DropBoxController{
                 // on ajax finish
                 ajax.onload = event => {
 
+                    // hide the progress bar
+                    this.modalShow(false);
+
                     try{
                     
                         // Resolve the server response
@@ -89,6 +109,8 @@ class DropBoxController{
                     
                     } catch(e){
 
+                        // hide the progress bar
+                         this.modalShow(false);
                         // Case something wrong happend, reject the promise
                         reject(e);
                     }
@@ -117,6 +139,9 @@ class DropBoxController{
                 // append the current file to formData
                 formData.append('input-file', file);
 
+                // Save the time that stats upload the files
+                this.startUploadTime = Date.now();
+
                 // send the file to the server
                 ajax.send(formData);
 
@@ -129,7 +154,14 @@ class DropBoxController{
 
     }
 
-    // Change the progress bar percentage
+    
+    /**
+     * Update the progress bar
+     *
+     * @param {*} event the events
+     * @param {*} file the properties of the file
+     * @memberof DropBoxController
+     */
     uploadProgress(event, file){
 
         // the total bytes send
@@ -138,9 +170,42 @@ class DropBoxController{
         let total = event.total;
         // the percente send
         let percent = parseInt((loaded / total) * 100);
+        // the time spent to upload the file
+        let timeSpent = Date.now() - this.startUploadTime;
+        // time left to upload
+        let timeLeft = ((100 - percent) * timeSpent) / percent;
         // change de progress bar width
         this.progressBarEl.style.width = `${percent}%`;
+        // Change the file name
+        this.nameFileEl.innerHTML = file.name;
+        // change the time left to upload
+        this.timeLeftEl.innerHTML =  this.formatTimeToHuman(timeLeft);
+    }
 
+
+    
+    /**
+     *format the time in ms to h:m:s
+     *
+     * @param {*} duration the total duration to upload
+     * @returns string formated with estimaed time to upload
+     * @memberof DropBoxController
+     */
+    formatTimeToHuman(duration){
+        let seconds = parseInt((duration / 1000) % 60);
+        let minutes = parseInt((duration / (1000*60)) % 60);
+        let hours = parseInt((duration / (1000*60*60)) % 24);
+
+        if (hours > 0) {
+            return `${hours} horas ${minutes} minutos e ${seconds} segundos`;
+        }
+        if (minutes > 0) {
+            return `${minutes} minutos e ${seconds} segundos`;
+        }
+        if (seconds > 0) {
+            return `${seconds} segundos`;
+        }
+        return '';
     }
 
     //#endregion
