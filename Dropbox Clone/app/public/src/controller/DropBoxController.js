@@ -7,6 +7,10 @@ class DropBoxController{
 
     //#region Default constructor
     
+    /**
+     *Creates an instance of DropBoxController.
+     * @memberof DropBoxController
+     */
     constructor(){
 
         // Select the "Send file" button
@@ -59,8 +63,6 @@ class DropBoxController{
         });
     }
 
-
-
     /**
      * Show or hide the progress bar
      *
@@ -70,7 +72,6 @@ class DropBoxController{
     modalShow(show = true){
         this.snackModalEl.style.display = (show) ? 'block' : 'none';
     }
-
 
     /**
      *Upload the files to the server
@@ -154,7 +155,6 @@ class DropBoxController{
 
     }
 
-    
     /**
      * Update the progress bar
      *
@@ -181,8 +181,6 @@ class DropBoxController{
         // change the time left to upload
         this.timeLeftEl.innerHTML =  this.formatTimeToHuman(timeLeft);
     }
-
-
     
     /**
      *format the time in ms to h:m:s
@@ -208,6 +206,12 @@ class DropBoxController{
         return '0 segundos';
     }
 
+    /**
+     * Create the template for file types
+     * 
+     * @returns returns the HTML template
+     * @memberof DropBoxController
+     */
     getFileView(){
         return `
         <li>
@@ -217,6 +221,13 @@ class DropBoxController{
     `;
     }
 
+    /**
+     *Get the icon for a specific file type
+     *
+     * @param {*} file the file type
+     * @returns the icon in svg for a file type
+     * @memberof DropBoxController
+     */
     getFileIconView(file){
         switch (file.type) {
             case folder:
