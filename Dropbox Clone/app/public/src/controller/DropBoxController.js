@@ -280,7 +280,28 @@ class DropBoxController{
         li.innerHTML = `${this.getFileIconView(file)}
                         <div class="name text-center">${file.name}</div> `;
 
+        this.initEventsLi(li);
+
         return li;
+    }
+
+
+    /**
+     * Initialize the li events
+     *
+     * @param {*} li the current li
+     * @memberof DropBoxController
+     */
+    initEventsLi(li){
+
+        // Add the click event
+        li.addEventListener('click', e =>{
+
+            // change the class to selected style
+            li.classList.toggle('selected');
+
+        });
+
     }
 
     /**
