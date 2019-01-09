@@ -25,10 +25,14 @@ class DropBoxController{
         this.nameFileEl = this.snackModalEl.querySelector('.filename');
         // Select the time left to upload the file
         this.timeLeftEl = this.snackModalEl.querySelector('.timeleft');
+        // Select the files and directores area
+        this.listFilesEl = document.querySelector('#list-of-files-and-directories');
         //Connects to the firebase DB
         this.connectFirebase();
         // Initialize the events
         this.initEvents();
+        // Read the files from database
+        this.readFiles();
 
     }
 
@@ -82,9 +86,11 @@ class DropBoxController{
 
                 });
 
-                // hide the upload bar
-                this.modalShow(false);
+                this.uploadComplete();
 
+            }).catch(err => {
+                this.uploadComplete();
+                console.log(err);
             });
 
             // Show the progress bar
@@ -104,6 +110,19 @@ class DropBoxController{
     getFirebaseRef(){
 
         return firebase.database().ref('files');
+
+    }
+
+    /**
+     * Hide the upload bar, reset the values and enable the button
+     *
+     * @memberof DropBoxController
+     */
+    uploadComplete(){
+
+        this.modalShow(false);
+        this.inputFilesEl.value = '';
+        this.btnSendFileEl = false;
 
     }
 
@@ -251,13 +270,17 @@ class DropBoxController{
      * @returns returns the HTML template
      * @memberof DropBoxController
      */
-    getFileView(){
-        return `
-        <li>
-            ${this.getFileIconView(file)}
-            <div class="name text-center">${file.name}</div>
-        </li>
-    `;
+    getFileView(file, key){
+
+        // create new li element
+        let li = document.createElement('li');
+
+        li.dataset.key = key;
+
+        li.innerHTML = `${this.getFileIconView(file)}
+                        <div class="name text-center">${file.name}</div> `;
+
+        return li;
     }
 
     /**
@@ -269,7 +292,7 @@ class DropBoxController{
      */
     getFileIconView(file){
         switch (file.type) {
-            case folder:
+            case 'folder':
                 return `<svg width="160" height="160" viewBox="0 0 160 160" class="mc-icon-template-content tile__preview tile__preview--icon">
                             <title>content-folder-large</title>
                             <g fill="none" fill-rule="evenodd">
@@ -281,6 +304,7 @@ class DropBoxController{
             case 'image/jpeg':
             case 'image/jpg':
             case 'image/gif':
+            case 'image/png':
                 return `<svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="160px" height="160px" viewBox="0 0 160 160" enable-background="new 0 0 160 160" xml:space="preserve">
                         <filter height="102%" width="101.4%" id="mc-content-unknown-large-a" filterUnits="objectBoundingBox" y="-.5%" x="-.7%">
                             <feOffset result="shadowOffsetOuter1" in="SourceAlpha" dy="1"></feOffset>
@@ -410,6 +434,33 @@ class DropBoxController{
                         <div class="name text-center">Arquivo</div>
                         `;
         }
+    }
+
+    
+    /**
+     *Read the files from firebase database
+     *
+     * @memberof DropBoxController
+     */
+    readFiles(){
+
+        this.getFirebaseRef().on('value', snapshot =>{
+
+            // clear the data
+            this.listFilesEl.innerHTML = '';
+
+            // loop through each file on database
+            snapshot.forEach(snapItem => {
+
+                let key = snapItem.key;
+                let data = snapItem.val();
+
+                this.listFilesEl.appendChild(this.getFileView(data, key));
+
+            });
+
+        });
+
     }
 
     //#endregion
