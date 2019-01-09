@@ -25,6 +25,8 @@ class DropBoxController{
         this.nameFileEl = this.snackModalEl.querySelector('.filename');
         // Select the time left to upload the file
         this.timeLeftEl = this.snackModalEl.querySelector('.timeleft');
+        //Connects to the firebase DB
+        this.connectFirebase();
         // Initialize the events
         this.initEvents();
 
@@ -33,6 +35,24 @@ class DropBoxController{
     //#endregion
 
     //#region Methods
+
+    /**
+     * Connect to the Firebase DB
+     *
+     * @memberof DropBoxController
+     */
+    connectFirebase(){
+        var config = {
+            apiKey: "AIzaSyBVmAzyWkqxysykXxqZqA3k5lw-HTDyk0k",
+            authDomain: "dropbox-clone-89f8a.firebaseapp.com",
+            databaseURL: "https://dropbox-clone-89f8a.firebaseio.com",
+            projectId: "dropbox-clone-89f8a",
+            storageBucket: "dropbox-clone-89f8a.appspot.com",
+            messagingSenderId: "188067586339"
+        };
+        
+        firebase.initializeApp(config);
+    }
 
     /**
      *Initialize the buttons events
@@ -53,7 +73,19 @@ class DropBoxController{
         this.inputFilesEl.addEventListener('change', event => {
 
             // Call the upload task with the selected itens
-            this.uploadTask(event.target.files);
+            this.uploadTask(event.target.files).then(responses => {
+
+                responses.forEach(resp => {
+
+                    // Save the JSON files to firebase database
+                    this.getFirebaseRef().push().set(resp.files['input-file']);
+
+                });
+
+                // hide the upload bar
+                this.modalShow(false);
+
+            });
 
             // Show the progress bar
             this.modalShow();
@@ -61,6 +93,18 @@ class DropBoxController{
             // reset the progress bar
             this.inputFilesEl.value = '';
         });
+    }
+
+    /**
+     *Gets the firebase references
+     *
+     * @returns return the files referes
+     * @memberof DropBoxController
+     */
+    getFirebaseRef(){
+
+        return firebase.database().ref('files');
+
     }
 
     /**
@@ -100,9 +144,6 @@ class DropBoxController{
                 // on ajax finish
                 ajax.onload = event => {
 
-                    // hide the progress bar
-                    this.modalShow(false);
-
                     try{
                     
                         // Resolve the server response
@@ -110,8 +151,6 @@ class DropBoxController{
                     
                     } catch(e){
 
-                        // hide the progress bar
-                         this.modalShow(false);
                         // Case something wrong happend, reject the promise
                         reject(e);
                     }
