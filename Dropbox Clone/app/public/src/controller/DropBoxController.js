@@ -297,6 +297,50 @@ class DropBoxController{
         // Add the click event
         li.addEventListener('click', e =>{
 
+            if(e.shiftKey){
+
+                // first selected item
+                let firstLi = this.listFilesEl.querySelector('.selected');
+                //
+                let lis = li.parentElement.childNodes;
+                
+                if(firstLi){
+                    
+                    let indexStart;
+                    let indexEnd;
+
+                    lis.forEach((el, index) => {
+
+                        if(firstLi === el) indexStart = index;
+                        if(li === el) indexEnd = index;
+
+                    });
+
+                    let index = [indexStart, indexEnd].sort();
+
+
+                    lis.forEach((el, i) => {
+
+                        if (i >= index[0] && i <= index[1]){
+                            el.classList.add('selected');
+                        }
+
+                    });
+
+                    return;
+
+                }
+
+            }
+
+            // If the user press the ctrl key
+            if(!e.ctrlKey){
+
+              this.listFilesEl.querySelectorAll('li.selected').forEach(el => {
+                  el.classList.remove('selected');
+              });
+            }
+
             // change the class to selected style
             li.classList.toggle('selected');
 
