@@ -77,12 +77,57 @@ class DropBoxController{
         return this.listFilesEl.querySelectorAll('.selected');
     }
 
+
+    /**
+     *Delete files from DB and disk
+     *
+     * @memberof DropBoxController
+     */
+    removeTask(){
+
+        let promises = [];
+
+        this.getSelection().forEach(li => {
+
+            let file = JSON.parse(li.dataset.file);
+            let key = li.dataset.key;
+
+            let formData = new FormData();
+
+            formData.append('path', file.path);
+            formData.append('key', key);
+
+            promises.push(this.ajax('/file', 'DELETE', formData));    
+        });
+
+        return Promise.all(promises);
+    }
+
     /**
      *Initialize the buttons events
      *
      * @memberof DropBoxController
      */
     initEvents(){
+
+        //delete event
+        this.btnDelete.addEventListener('click', e => {
+
+            this.removeTask().then(responses => {
+
+                responses.forEach(response => {
+
+                    if (response.fields.key) {
+                        this.getFirebaseRef().child(response.fields.key).remove();
+                    }
+
+                });
+
+            }).catch(err => {
+                console.error(err);
+            });
+
+        });
 
         // rename event
         this.btnRename.addEventListener('click', e => {
@@ -193,6 +238,54 @@ class DropBoxController{
         this.snackModalEl.style.display = (show) ? 'block' : 'none';
     }
 
+    ajax(url, method = 'GET', formData = new FormData(), onprogress = function(){}, onloadstart = function(){}){
+
+        return new Promise((resolve, reject) => {
+
+            // create new instance of XMLHttpRequest()
+            let ajax = new XMLHttpRequest();
+    
+            // Open the connection
+            ajax.open(method, url);
+    
+            // on ajax finish
+            ajax.onload = event => {
+    
+                try{
+                
+                    // Resolve the server response
+                    resolve(JSON.parse(ajax.responseText));
+                
+                } catch(e){
+    
+                    // Case something wrong happend, reject the promise
+                    reject(e);
+                }
+    
+                // If onload throw an error
+                ajax.onerror = event => {
+    
+                    // reject the promise
+                    reject(event);
+    
+                }
+    
+            };
+    
+            // event to send the bytes send the server
+            ajax.upload.onprogress = onprogress
+       
+            // Save the time that stats upload the files
+            onloadstart();
+    
+            // send the file to the server
+            ajax.send(formData);
+
+        });
+
+
+    }
+
     /**
      *Upload the files to the server
      *
@@ -208,60 +301,19 @@ class DropBoxController{
         // convert the collection to array
         [...files].forEach(file => {
 
-            // create a promises for each position inside the array
-            promises.push(new Promise((resolve, reject) => {
+            let formData = new FormData();
+            formData.append('input-file', file);
 
-                // create new instance of XMLHttpRequest()
-                let ajax = new XMLHttpRequest();
+            let promise = this.ajax('/upload', 'POST', formData, () => {
+                this.uploadProgress(event, file);
+            }, () => {
 
-                // Open the connection
-                ajax.open('POST', '/upload');
-
-                // on ajax finish
-                ajax.onload = event => {
-
-                    try{
-                    
-                        // Resolve the server response
-                        resolve(JSON.parse(ajax.responseText));
-                    
-                    } catch(e){
-
-                        // Case something wrong happend, reject the promise
-                        reject(e);
-                    }
-
-                    // If onload throw an error
-                    ajax.onerror = event => {
-
-                        // reject the promise
-                        reject(event);
-
-                    }
-
-                };
-
-                // event to send the bytes send the server
-                ajax.upload.onprogress = event => {
-
-                    // pass to the method the event and the file properties
-                    this.uploadProgress(event, file);
-
-                }
-
-                // create new instance of FormData
-                let formData = new FormData();
-
-                // append the current file to formData
-                formData.append('input-file', file);
-
-                // Save the time that stats upload the files
                 this.startUploadTime = Date.now();
 
-                // send the file to the server
-                ajax.send(formData);
-
-            }));
+            });
+            
+            // create a promises for each position inside the array
+            promises.push(promise);
 
         });
 
@@ -342,7 +394,6 @@ class DropBoxController{
 
         return li;
     }
-
 
     /**
      * Initialize the li events
@@ -566,7 +617,6 @@ class DropBoxController{
         }
     }
 
-    
     /**
      *Read the files from firebase database
      *
