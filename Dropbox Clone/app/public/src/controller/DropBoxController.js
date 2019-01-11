@@ -13,6 +13,8 @@ class DropBoxController{
      */
     constructor(){
 
+        // Current folder to upload files
+        this.currentFolder = ['hcode'];
         // Event for files selection
         this.onSelectionChanged = new Event('selectionchanged');
         // Select the "Send file" button
@@ -109,6 +111,25 @@ class DropBoxController{
      * @memberof DropBoxController
      */
     initEvents(){
+
+        //New folder event
+
+        this.btnNewFolder.addEventListener('click', e => {
+
+            let name = prompt('Digite o nome da nova pasta:');
+
+
+            if (name) {
+                this.getFirebaseRef().push().set({
+
+                    name,
+                    type: 'folder',
+                    path: this.currentFolder.join('/')
+
+                });
+            }
+
+        });
 
         //delete event
         this.btnDelete.addEventListener('click', e => {
