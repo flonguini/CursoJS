@@ -10,8 +10,35 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-//#endregion
 
+router.get('/file', (req,res) => {
+
+	let path = './' + req.query.path;
+
+	if (fs.existsSync(path)) {
+		fs.readFile(path, (err, data) =>{
+
+			if (err) {
+				console.error(err);
+				res.status(400).json({
+					error: err
+				});
+			}else {
+				res.end(data);
+				res.status(200);
+
+			}
+		})
+		
+	}else{
+		res.status(404).json({
+			error: 'File not found'
+		});
+	}
+
+});
+
+//#endregion
 
 //#region POST Routes
 
@@ -67,33 +94,6 @@ router.delete('/file', (req, res) => {
 
 
 //#endregion
-
-router.get('/file', (req,res) => {
-
-	let path = './' + req.query.path;
-
-	if (fs.existsSync(path)) {
-		fs.readFile(path, (err, data) =>{
-
-			if (err) {
-				console.error(err);
-				res.status(400).json({
-					error: err
-				});
-			}else {
-				res.end(data);
-				res.status(200);
-
-			}
-		})
-		
-	}else{
-		res.status(404).json({
-			error: 'File not found'
-		});
-	}
-
-});
 
 // export the module
 module.exports = router;

@@ -200,16 +200,24 @@ class DropBoxController{
         // Add the change event to upload bar
         this.inputFilesEl.addEventListener('change', event => {
 
+            this.btnSendFileEl.disabled = true;
+
             // Call the upload task with the selected itens
             this.uploadTask(event.target.files).then(responses => {
+
+                console.log(responses);
 
                 responses.forEach(resp => {
 
                     // Save the JSON files to firebase database
-                    this.getFirebaseRef().push().set(resp.files['input-file']);
+                    //TODO: downloadURLs não está aparecendo - aula D20
+                    this.getFirebaseRef().push().set({
+                        name: resp.name,
+                        type: resp.contentType,
+                        size: resp.size
+                    });
 
                 });
-
                 this.uploadComplete();
 
             }).catch(err => {
@@ -323,23 +331,39 @@ class DropBoxController{
         let promises = [];
 
         // convert the collection to array
-        [...files].forEach(file => {
-
-            let formData = new FormData();
-            formData.append('input-file', file);
-
-            let promise = this.ajax('/upload', 'POST', formData, () => {
-                this.uploadProgress(event, file);
-            }, () => {
-
-                this.startUploadTime = Date.now();
-
+        [...files].forEach(file => 
+            {
+                promises.push(new Promise((resolve, reject) => 
+                {
+                    
+                    let fileRef = firebase.storage().ref(this.currentFolder.join('/')).child(file.name);
+    
+                    let task = fileRef.put(file);
+    
+                    task.on('state_changed', 
+                    snapshot =>
+                    {
+                        this.uploadProgress({
+                            loaded: snapshot.bytesTransferred,
+                            total: snapshot.totalBytes
+                        }, file);
+    
+                    }, 
+                    error => 
+                    {
+                        console.log(error);
+                        reject(error);
+                    }, 
+                    () => 
+                    {
+                        fileRef.getMetadata().then(metadata => {
+                            resolve(metadata);
+                        }).catch(err => {
+                            reject(err);
+                        });
+                    });
+                }));
             });
-            
-            // create a promises for each position inside the array
-            promises.push(promise);
-
-        });
 
         // return every resolve for each promises created
         return Promise.all(promises);
@@ -419,7 +443,6 @@ class DropBoxController{
         return li;
     }
 
-
     /**
      *Open folders
      *
@@ -482,7 +505,6 @@ class DropBoxController{
         });
 
     }
-
 
     /**
      * Initialize the li events
