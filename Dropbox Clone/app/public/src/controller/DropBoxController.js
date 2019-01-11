@@ -477,7 +477,7 @@ class DropBoxController{
                 this.currentFolder = a.dataset.path.split('/');
                 this.openFolder();
 
-            })
+            });
 
         });
 
