@@ -86,8 +86,11 @@ class WhatsAppController{
             this.closeAllLeftPanel();
             // Ativa a exibição do painel
             this.el.panelEditProfile.show();
-            // Abre o painel
-            this.el.panelEditProfile.addClass('open');
+            // Adiciona um delay para correção da animação
+            setTimeout(() => {
+                // Abre o painel
+                this.el.panelEditProfile.addClass('open');
+            }, 300);
         });
 
         // Adiciona o evento de click no botão de adicionar novo contato
@@ -96,8 +99,11 @@ class WhatsAppController{
             this.closeAllLeftPanel();
             // Ativa a exibição do painel
             this.el.panelAddContact.show();
-            // Abre o painel
-            this.el.panelAddContact.addClass('open');
+            // Adiciona um delay para correção da animação
+            setTimeout(() => {
+                // Abre o painel
+                this.el.panelAddContact.addClass('open');
+            }, 300);
         });
 
         // Adiciona o evento de click no botão de fechar em edição de perfil
