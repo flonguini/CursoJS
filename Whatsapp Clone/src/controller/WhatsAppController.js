@@ -5,6 +5,8 @@ class WhatsAppController{
         this.elementsPrototype();
 
         this.loadElements();
+
+        this.initEvents();
     }
 
     /**
@@ -72,5 +74,54 @@ class WhatsAppController{
         Element.prototype.hasClass = function (name){
             return this.classList.contains(name);
         }
+    }
+
+    /**
+     * Inicializa os eventos dos botões
+     */
+    initEvents(){
+        // Adiciona o evento de click no botão de editar perfil
+        this.el.myPhoto.on('click', e => {
+            // Fecha todos os paineis
+            this.closeAllLeftPanel();
+            // Ativa a exibição do painel
+            this.el.panelEditProfile.show();
+            // Abre o painel
+            this.el.panelEditProfile.addClass('open');
+        });
+
+        // Adiciona o evento de click no botão de adicionar novo contato
+        this.el.btnNewContact.on('click', e => {
+            // Fecha todos os paineis
+            this.closeAllLeftPanel();
+            // Ativa a exibição do painel
+            this.el.panelAddContact.show();
+            // Abre o painel
+            this.el.panelAddContact.addClass('open');
+        });
+
+        // Adiciona o evento de click no botão de fechar em edição de perfil
+        this.el.btnClosePanelEditProfile.on('click', e => {
+            // Fecha o painel
+            this.el.panelEditProfile.removeClass('open');
+        });
+
+        // Adiciona o evento de click no botão de fechar em nova conversa
+        this.el.btnClosePanelAddContact.on('click', e =>{
+            // Fecha o painel
+            this.el.panelAddContact.removeClass('open');
+        })
+
+
+    }
+
+    /**
+     * Fecha os paineis abertos
+     */
+    closeAllLeftPanel(){
+        // Fecha o painel de edição do perfil
+        this.el.panelEditProfile.hide();
+        // Fecha o painel de adicionar novo contato
+        this.el.panelAddContact.hide();
     }
 }
