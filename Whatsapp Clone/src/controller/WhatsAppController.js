@@ -173,8 +173,13 @@ class WhatsAppController{
 
         // Adiciona evento ao botão de anexar
         this.el.btnAttach.on('click', e=>{
+            // Remove a propagação dos eventos
+            e.stopPropagation();
             // Abre o menu
             this.el.menuAttach.addClass('open');
+            // Fecha o menu quando ocorre clique fora do menu
+            //bind passa para a função o elemento btnAttach
+            document.addEventListener('click', this.closeMenuAttach.bind(this));
         });
 
         // Adiciona evento no botão de adicionar foto
@@ -196,6 +201,16 @@ class WhatsAppController{
         this.el.btnAttachContact.on('click', e =>{
             console.log('Contact');
         });
+    }
+
+    /**
+     * Fecha o menu de anexo
+     */
+    closeMenuAttach(e){
+        // Remove o evento de click
+        document.removeEventListener('click', this.closeMenuAttach);
+        // Fecha o menu
+        this.el.menuAttach.removeClass('open');
     }
 
     /**
