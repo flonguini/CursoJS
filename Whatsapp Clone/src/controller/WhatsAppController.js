@@ -163,7 +163,13 @@ class WhatsAppController{
             let formData = new FormData(this.el.formPanelAddContact)
         });
 
-
+        // Seleciona todos os controles de contatos e adiciona evento de click
+        this.el.contactsMessagesList.querySelectorAll('.contact-item').forEach(item => {
+            item.on('click', e => {
+                this.el.home.hide();
+                this.el.main.css({display:'flex'});
+            });
+        });
     }
 
     /**
