@@ -170,6 +170,32 @@ class WhatsAppController{
                 this.el.main.css({display:'flex'});
             });
         });
+
+        // Adiciona evento ao botão de anexar
+        this.el.btnAttach.on('click', e=>{
+            // Abre o menu
+            this.el.menuAttach.addClass('open');
+        });
+
+        // Adiciona evento no botão de adicionar foto
+        this.el.btnAttachPhoto.on('click', e =>{
+            console.log('photo');
+        });
+
+        // Adiciona evento no botão de adicionar foto
+        this.el.btnAttachCamera.on('click', e =>{
+            console.log('Camera');
+        });
+
+        // Adiciona evento no botão de adicionar foto
+        this.el.btnAttachDocument.on('click', e =>{
+            console.log('Document');
+        });
+
+        // Adiciona evento no botão de adicionar foto
+        this.el.btnAttachContact.on('click', e =>{
+            console.log('Contact');
+        });
     }
 
     /**
