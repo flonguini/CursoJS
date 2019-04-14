@@ -184,23 +184,83 @@ class WhatsAppController{
 
         // Adiciona evento no botão de adicionar foto
         this.el.btnAttachPhoto.on('click', e =>{
-            console.log('photo');
+            
+            this.el.inputPhoto.click();
+        });
+
+        this.el.inputPhoto.on('change', e => {
+            console.log(this.el.inputPhoto.files);
+
+            [...this.el.inputPhoto.files].forEach(file => {
+                console.log(file);
+            });
         });
 
         // Adiciona evento no botão de adicionar foto
-        this.el.btnAttachCamera.on('click', e =>{
-            console.log('Camera');
+        this.el.btnAttachCamera.on('click', e => {
+            // Fecha o painel das mensagens
+            this.el.panelMessagesContainer.hide();
+            // Abre o painel da camera
+            this.el.panelCamera.addClass('open');
+            // TODO: Corrigir abertura do painel - aula 115
+            // Ajusta o tamanho do painel 
+            //this.el.panelCamera.css({
+            //    'height':'calc(100% - 120px)'
+            //});
+        });
+
+        // Botão para fechar painel da camera
+        this.el.btnClosePanelCamera.on('click', e =>{
+            // Fecha todos os paineis
+            this.closeAllMainPanel();
+            // Abre o painel das mensagens
+            this.el.panelMessagesContainer.show();
+        });
+
+        // Botão tirar foto
+        this.el.btnTakePicture.on('click', e => {
+            console.log('tirar foto');
         });
 
         // Adiciona evento no botão de adicionar foto
         this.el.btnAttachDocument.on('click', e =>{
-            console.log('Document');
+            // Fecha os paineis
+            this.closeAllMainPanel();
+            // Abre o painel para anexar documentos
+            this.el.panelDocumentPreview.addClass('open');
         });
 
         // Adiciona evento no botão de adicionar foto
         this.el.btnAttachContact.on('click', e =>{
-            console.log('Contact');
+            // Exibe tela dos contatos
+            this.el.modalContacts.show();
         });
+
+        this.el.btnCloseModalContacts.on('click', e=>{
+            // Esconde tela dos contatos
+            this.el.modalContacts.hide();
+        })
+
+        // Fecha o painel de documentos
+        this.el.btnClosePanelDocumentPreview.on('click', e=> {
+            this.closeAllMainPanel();
+            this.el.panelMessagesContainer.show();
+        });
+
+        // Botão de enviar documento
+        this.el.btnSendDocument.on('click', e=>{
+            console.log('enviar documento');
+        });
+
+    }
+
+    /**
+     * Fecha todos os paineis
+     */ 
+    closeAllMainPanel(){
+        this.el.panelMessagesContainer.hide();
+        this.el.panelDocumentPreview.removeClass('open');
+        this.el.panelCamera.removeClass('open');
     }
 
     /**
