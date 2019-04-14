@@ -252,6 +252,50 @@ class WhatsAppController{
             console.log('enviar documento');
         });
 
+        // Adiciona evento do botão do microfone
+        this.el.btnSendMicrophone.on('click', e => {
+            // Exibe painel de gravação de audio
+            this.el.recordMicrophone.show();
+            // Oculta botão do microfone
+            this.el.btnSendMicrophone.hide();
+            // Inicia o cronometro de gravação
+            this.startRecordMicrohoneTime();
+        });
+
+        // Fecha painel de gravação do microfone cancelando a ação
+        this.el.btnCancelMicrophone.on('click', e=>{
+            this.closeRecordMicrophone();
+        });
+
+        // Fecha painel de gravação do microfone executando a ação
+        this.el.btnFinishMicrophone.on('click', e=>{
+            this.closeRecordMicrophone();
+        });
+
+    }
+
+    /**
+     * Inicia o relógio de gração do áudio
+     */
+    startRecordMicrohoneTime(){
+        // Grava hora atual
+        let start = Date.now();
+        // Altera o valor do tempo de gração
+        this._recordMicrophoneInterval = setInterval(() => {
+            this.el.recordMicrophoneTimer.innerHTML = (Date.now() - start);
+        }, 100);
+    }
+
+    /**
+     * Encerra a gravação de áudio pelo microfone
+     */
+    closeRecordMicrophone(){
+        // Esconce painel de gravação de audio
+        this.el.recordMicrophone.hide();
+        // Exibe botão do microfone
+        this.el.btnSendMicrophone.show();
+        // Encerra o contador do tempo
+        clearInterval(this._recordMicrophoneInterval);
     }
 
     /**
